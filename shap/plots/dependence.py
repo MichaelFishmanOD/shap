@@ -15,7 +15,7 @@ from ..common import convert_name, approximate_interactions, encode_array_if_nee
 def dependence_plot(ind, shap_values, features, feature_names=None, display_features=None,
                     interaction_index="auto",
                     color="#1E88E5", axis_color="#333333", cmap=None,
-                    dot_size=16, x_jitter=0, alpha=1, title=None, xmin=None, xmax=None, ax=None, show=True):
+                    dot_size=16, x_jitter=0, alpha=1, title=None, xmin=None, xmax=None, ax=None, show=True, figsize = None):
     """ Create a SHAP dependence plot, colored by an interaction feature.
 
     Plots the value of the feature on the x-axis and the SHAP value of the same feature
@@ -69,6 +69,8 @@ def dependence_plot(ind, shap_values, features, feature_names=None, display_feat
     ax : matplotlib Axes object
          Optionally specify an existing matplotlib Axes object, into which the plot will be placed.
          In this case we do not create a Figure, otherwise we do.
+         
+    figsize : (width, height) pair for figure. Ignored if ax is not None.
 
     """
 
@@ -111,7 +113,8 @@ def dependence_plot(ind, shap_values, features, feature_names=None, display_feat
 
     # create a matplotlib figure, if `ax` hasn't been specified.
     if not ax:
-        figsize = (7.5, 5) if interaction_index != ind and interaction_index is not None else (6, 5)
+        if figsize is None:
+            figsize = (7.5, 5) if interaction_index != ind and interaction_index is not None else (6, 5)
         fig = pl.figure(figsize=figsize)
         ax = fig.gca()
     else:
